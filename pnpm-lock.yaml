@@ -157,6 +157,9 @@ importers:
       '@replit/connectors-sdk':
         specifier: ^0.4.1
         version: 0.4.1
+      gerepost-filemanager:
+        specifier: http://registry.npmjs.org/gerepost-filemanager/-/gerepost-filemanager-1.0.1.tgz
+        version: http://registry.npmjs.org/gerepost-filemanager/-/gerepost-filemanager-1.0.1.tgz
     devDependencies:
       prettier:
         specifier: ^3.9.5
@@ -1994,6 +1997,12 @@ packages:
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
+
+  gerepost-filemanager@http://registry.npmjs.org/gerepost-filemanager/-/gerepost-filemanager-1.0.1.tgz:
+    resolution: {integrity: sha512-CxZtEg/985dOWVrIjUZVHpTRtofBR2XZdfoRDq/t1WPEQRLVkL/fgtQTc+btHPQHtvB3L5yT1/TLpWb5LkGdlQ==, tarball: https://registry.npmjs.org/gerepost-filemanager/-/gerepost-filemanager-1.0.1.tgz}
+    version: 1.0.1
+    engines: {node: '>=10.0.0'}
+    hasBin: true
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -4481,6 +4490,8 @@ snapshots:
   function-bind@1.1.2: {}
 
   gensync@1.0.0-beta.2: {}
+
+  gerepost-filemanager@http://registry.npmjs.org/gerepost-filemanager/-/gerepost-filemanager-1.0.1.tgz: {}
 
   get-caller-file@2.0.5: {}
 
