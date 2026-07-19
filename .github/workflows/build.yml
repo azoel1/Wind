@@ -1,0 +1,64 @@
+name: Build Windows BP
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            cmake ninja-build bison flex nasm \
+            gcc g++ mingw-w64 \
+            git python3 \
+            libz-dev pkg-config \
+            xsltproc gettext wget curl
+
+      - name: Clone ReactOS
+        run: |
+          git clone --depth=1 https://github.com/reactos/reactos.git reactos
+
+      - name: Apply Windows BP branding
+        run: |
+          find reactos -name "*.rc" -o -name "*.h" | \
+            xargs grep -rl "ReactOS" 2>/dev/null | head -50 | \
+            xargs sed -i 's/ReactOS/Windows BP/g' 2>/dev/null || true
+
+      - name: Download and install RosBE
+        run: |
+          wget -q https://downloads.sourceforge.net/reactos/RosBE-Unix-2.2.1.tar.bz2
+          tar -xjf RosBE-Unix-2.2.1.tar.bz2
+          cd RosBE-Unix-2.2.1
+          echo -e "yes\n$HOME/RosBE\n" | bash RosBE-Builder.sh $HOME/RosBE
+          echo "$HOME/RosBE/i386/bin" >> $GITHUB_PATH
+
+      - name: Configure build
+        run: |
+          mkdir -p reactos-build
+          cd reactos-build
+          cmake ../reactos \
+            -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=../reactos/toolchain-gcc.cmake \
+            -DARCH=i386
+
+      - name: Compile Windows BP
+        run: |
+          cd reactos-build
+          ninja bootcd
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: WindowsBP-ISO
+          path: reactos-build/bootcd.iso
+          retention-days: 7
